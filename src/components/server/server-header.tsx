@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 
 import type { ServerWithMembersWithProfile } from "@/types"
 import { ChevronDown, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react"
+import { useModal } from "@/hooks/use-modal-store"
 
 interface ServerHeaderProps {
     server: ServerWithMembersWithProfile
@@ -16,6 +17,8 @@ export const ServerHeader = ({
     server,
     role
 }: ServerHeaderProps) => {
+    const { onOpen } = useModal()
+
     const isAdmin = role === MemberRole.ADMIN
     const isModerator = isAdmin || role === MemberRole.GUEST
 
@@ -37,6 +40,7 @@ export const ServerHeader = ({
             >
                 {isModerator && (
                     <DropdownMenuItem
+                        onClick={(() => onOpen('invite', { server }))}
                         className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
                     >
                         Invide People
